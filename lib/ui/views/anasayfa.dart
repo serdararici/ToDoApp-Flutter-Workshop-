@@ -38,6 +38,7 @@ class _AnasayfaState extends State<Anasayfa> {
             MaterialPageRoute(builder: (context) => const KayitSayfa()))
               .then((value){
                 print("Anasayfaya dönüldü.");
+                context.read<AnasayfaCubit>().toDosYukle(); // Listeyi yeniden yükle
           });
         },
         backgroundColor: renk3,
@@ -68,6 +69,7 @@ class _AnasayfaState extends State<Anasayfa> {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => DetaySayfa(toDos: toDo)))
                                 .then((value){
                                print("Anasayfaya dönüldü.");
+                               context.read<AnasayfaCubit>().toDosYukle(); // Listeyi yeniden yükle
                             });
                           },
                           child: Card(

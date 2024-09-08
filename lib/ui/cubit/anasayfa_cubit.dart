@@ -18,6 +18,7 @@ class AnasayfaCubit extends Cubit<List<ToDos>>{
 
   Future<void> sil(int id) async{
     await toDoRepo.sil(id);
+    toDosYukle();
   }
 
 }
