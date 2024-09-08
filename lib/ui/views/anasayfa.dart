@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_app/data/entity/todos.dart';
+import 'package:to_do_app/ui/cubit/anasayfa_cubit.dart';
 import 'package:to_do_app/ui/renkler.dart';
 import 'package:to_do_app/ui/views/detay_sayfa.dart';
 import 'package:to_do_app/ui/views/kayit_sayfa.dart';
@@ -14,24 +16,11 @@ class Anasayfa extends StatefulWidget {
 
 class _AnasayfaState extends State<Anasayfa> {
 
-  Future<void> ara(String aramaKelimesi) async {
-    print("Ara $aramaKelimesi");
-  }
-
-  Future<List<ToDos>> toDosYukle() async {
-    var toDosListesi  = <ToDos>[];
-    var toDo1 = ToDos(id: 1, name: "Spor");
-    var toDo2 = ToDos(id: 2, name: "Yemek");
-    var toDo3 = ToDos(id: 3, name: "Alışveriş");
-    toDosListesi.add(toDo1);
-    toDosListesi.add(toDo2);
-    toDosListesi.add(toDo3);
-
-    return toDosListesi;
-  }
-
-  Future<void> sil(int id) async{
-    print("Sil : $id");
+  @override
+  void initState() {
+    super.initState();
+    //Uygulama çalıştırıldığında bir kere çalışır.
+    context.read<AnasayfaCubit>().toDosYukle();
   }
 
   @override
@@ -62,18 +51,16 @@ class _AnasayfaState extends State<Anasayfa> {
                   child: CupertinoSearchTextField(
                     placeholder: "Ara",
                     onChanged: (searchText){
-                      ara(searchText);
+                      context.read<AnasayfaCubit>().ara(searchText);
                     },
                   ),
                 ),
-              FutureBuilder<List<ToDos>>(
-                future: toDosYukle(),
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
-                    var toDosListesi = snapshot.data;
+              BlocBuilder<AnasayfaCubit,List<ToDos>>(
+                builder: (context, toDosListesi){
+                  if(toDosListesi.isNotEmpty){
                     return Expanded(
                       child: ListView.builder(
-                        itemCount: toDosListesi!.length, 
+                        itemCount: toDosListesi.length,
                         itemBuilder: (context, indeks){
                           var toDo = toDosListesi[indeks];
                         return GestureDetector(
@@ -97,7 +84,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                         backgroundColor: renk1,
                                         content: Text("${toDo.name} silinsin mi?",style: TextStyle(color: yaziRenk),),
                                         action: SnackBarAction(label: "Evet", textColor: yaziRenk, onPressed: (){
-                                          sil(toDo.id);
+                                          context.read<AnasayfaCubit>().sil(toDo.id);
                                       },),
                                       ),
 
