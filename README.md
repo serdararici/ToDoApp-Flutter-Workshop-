@@ -35,3 +35,7 @@ Bu ToDo uygulaması, Flutter kullanarak geliştirilmiş bir mobil uygulamadır. 
   - `Dio` kütüphanesi kullanılarak internetten veri çekildi ve `jsonParse` ile `ToDo` nesnesine dönüştürüldü.
 
 
+ ## --------------------------------------
+![Flutter Workshop](https://github.com/serdararici/ToDoApp-Flutter-Workshop-/blob/master/flutter_workshop.png)
+
+
